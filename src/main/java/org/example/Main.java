@@ -1,17 +1,37 @@
-package org.example;
+import java.util.*;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+class Libro {
+    String titulo, autor, isbn;
+    boolean disponible = true;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+    public Libro(String titulo, String autor, String isbn) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.isbn = isbn;
+    }
+
+    @Override
+    public String toString() {
+        return "Titulo: " + titulo + ", Autor: " + autor + ", ISBN: " + isbn + ", Disponible: " + (disponible ? "Sí" : "No");
     }
 }
+
+class Biblioteca {
+    private List<Libro> libros = new ArrayList<>();
+
+    public void agregarLibro(Libro libro) {
+        libros.add(libro);
+        System.out.println("Libro agregado.");
+    }
+
+    public void buscarPorTitulo(String titulo) {
+        libros.stream().filter(l -> l.titulo.equalsIgnoreCase(titulo))
+                .findFirst().ifPresentOrElse(System.out::println, () -> System.out.println("Libro no encontrado."));
+    }
+
+    public void buscarPorAutor(String autor) {
+        libros.stream().filter(l -> l.autor.equalsIgnoreCase(autor))
+                .forEach(System.out::println);
+        if (libros.stream().noneMatch(l -> l.autor.equalsIgnoreCase(autor)))
+            System.out.println("No se encontraron libros de este autor.");
+    }
